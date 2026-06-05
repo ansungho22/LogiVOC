@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from . import auth, categories, wiki, tasks, mcp, admin, graph
+from . import auth, categories, wiki, tasks, mcp, admin, graph, search, stats
 
 router = APIRouter()
 router.include_router(auth.router)
@@ -9,3 +9,5 @@ router.include_router(tasks.router)
 router.include_router(mcp.router)
 router.include_router(admin.router)
 router.include_router(graph.router)
+router.include_router(search.router)
+router.include_router(stats.router)

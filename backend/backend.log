@@ -1,52 +1,200 @@
-INFO:     Started server process [95069]
+INFO:     Started server process [14679]
 INFO:     Waiting for application startup.
 INFO:     Application startup complete.
 INFO:     Uvicorn running on http://127.0.0.1:8088 (Press CTRL+C to quit)
-INFO:     127.0.0.1:57281 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59436 - "GET /health HTTP/1.1" 200 OK
 /Users/horange/code/LogiVOC/backend/.venv/lib/python3.12/site-packages/jwt/api_jwt.py:147: InsecureKeyLengthWarning: The HMAC key is 11 bytes long, which is below the minimum recommended length of 32 bytes for SHA256. See RFC 7518 Section 3.2.
   return self._jws.encode(
-INFO:     127.0.0.1:57298 - "POST /api/v1/auth/login HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57297 - "POST /api/v1/auth/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59448 - "POST /api/v1/auth/login HTTP/1.1" 200 OK
 /Users/horange/code/LogiVOC/backend/.venv/lib/python3.12/site-packages/jwt/api_jwt.py:368: InsecureKeyLengthWarning: The HMAC key is 11 bytes long, which is below the minimum recommended length of 32 bytes for SHA256. See RFC 7518 Section 3.2.
   decoded = self.decode_complete(
-INFO:     127.0.0.1:57299 - "GET /api/v1/categories/ HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57300 - "GET /api/v1/categories/ HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57301 - "GET /api/v1/wiki/?limit=1000 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57302 - "GET /api/v1/wiki/?limit=1000 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57305 - "GET /api/v1/wiki/?limit=1000 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57306 - "GET /api/v1/categories/ HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57318 - "POST /api/v1/auth/login HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57319 - "POST /api/v1/auth/login HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57320 - "POST /api/v1/auth/login HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57321 - "POST /api/v1/auth/login HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57323 - "GET /api/v1/categories/ HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57322 - "GET /api/v1/wiki/?limit=1000 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57326 - "GET /api/v1/categories/ HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57327 - "GET /api/v1/wiki/?limit=1000 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57329 - "GET /api/v1/categories/ HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57331 - "POST /api/v1/categories/ HTTP/1.1" 201 Created
-INFO:     127.0.0.1:57333 - "GET /api/v1/categories/ HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57335 - "PUT /api/v1/categories/2b76b267-3ac6-4ef7-894f-0136caa96a14 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57337 - "GET /api/v1/categories/ HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57339 - "DELETE /api/v1/categories/2b76b267-3ac6-4ef7-894f-0136caa96a14 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57341 - "GET /api/v1/categories/ HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57349 - "POST /api/v1/auth/login HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57350 - "POST /api/v1/auth/login HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57351 - "GET /api/v1/categories/ HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57352 - "GET /api/v1/categories/ HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57353 - "GET /api/v1/wiki/?limit=1000 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57354 - "GET /api/v1/wiki/?limit=1000 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59449 - "GET /api/v1/categories/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59450 - "GET /api/v1/categories/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59451 - "GET /api/v1/wiki/?limit=1000 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59452 - "GET /api/v1/wiki/?limit=1000 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59454 - "POST /api/v1/files/upload HTTP/1.1" 200 OK
+/Users/horange/code/LogiVOC/backend/.venv/lib/python3.12/site-packages/jwt/api_jwt.py:368: InsecureKeyLengthWarning: The HMAC key is 11 bytes long, which is below the minimum recommended length of 32 bytes for SHA256. See RFC 7518 Section 3.2.
+  decoded = self.decode_complete(
+INFO:     127.0.0.1:59456 - "GET /api/v1/tasks/85331e81-4319-4d5a-9572-e7367d8105a7 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59458 - "GET /api/v1/wiki/32348068-2910-46dd-b1c3-24b4c06b9dba HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59460 - "PUT /api/v1/wiki/32348068-2910-46dd-b1c3-24b4c06b9dba HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59462 - "POST /api/v1/wiki/32348068-2910-46dd-b1c3-24b4c06b9dba/verify HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59464 - "GET /api/v1/categories/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59466 - "GET /api/v1/wiki/?limit=1000 HTTP/1.1" 200 OK
+/Users/horange/code/LogiVOC/backend/.venv/lib/python3.12/site-packages/jwt/api_jwt.py:147: InsecureKeyLengthWarning: The HMAC key is 11 bytes long, which is below the minimum recommended length of 32 bytes for SHA256. See RFC 7518 Section 3.2.
+  return self._jws.encode(
+INFO:     127.0.0.1:59474 - "POST /api/v1/auth/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59475 - "GET /api/v1/categories/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59476 - "GET /api/v1/documents/search?limit=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59477 - "GET /api/v1/categories/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59478 - "GET /api/v1/documents/search?limit=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59479 - "GET /api/v1/documents/search?query=%ED%86%B5%EA%B4%80&limit=50 HTTP/1.1" 500 Internal Server Error
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "/Users/horange/code/LogiVOC/backend/.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1969, in _exec_single_context
+    self.dialect.do_execute(
+  File "/Users/horange/code/LogiVOC/backend/.venv/lib/python3.12/site-packages/sqlalchemy/engine/default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+sqlite3.OperationalError: near ">": syntax error
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/horange/code/LogiVOC/backend/.venv/lib/python3.12/site-packages/uvicorn/protocols/http/httptools_impl.py", line 421, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/horange/code/LogiVOC/backend/.venv/lib/python3.12/site-packages/uvicorn/middleware/proxy_headers.py", line 63, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/horange/code/LogiVOC/backend/.venv/lib/python3.12/site-packages/fastapi/applications.py", line 1159, in __call__
+    await super().__call__(scope, receive, send)
+  File "/Users/horange/code/LogiVOC/backend/.venv/lib/python3.12/site-packages/starlette/applications.py", line 90, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/horange/code/LogiVOC/backend/.venv/lib/python3.12/site-packages/starlette/middleware/errors.py", line 186, in __call__
+    raise exc
+  File "/Users/horange/code/LogiVOC/backend/.venv/lib/python3.12/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/Users/horange/code/LogiVOC/backend/.venv/lib/python3.12/site-packages/starlette/middleware/cors.py", line 88, in __call__
+    await self.app(scope, receive, send)
+  File "/Users/horange/code/LogiVOC/backend/.venv/lib/python3.12/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/Users/horange/code/LogiVOC/backend/.venv/lib/python3.12/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/Users/horange/code/LogiVOC/backend/.venv/lib/python3.12/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/horange/code/LogiVOC/backend/.venv/lib/python3.12/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/Users/horange/code/LogiVOC/backend/.venv/lib/python3.12/site-packages/starlette/routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/horange/code/LogiVOC/backend/.venv/lib/python3.12/site-packages/starlette/routing.py", line 680, in app
+    await route.handle(scope, receive, send)
+  File "/Users/horange/code/LogiVOC/backend/.venv/lib/python3.12/site-packages/starlette/routing.py", line 276, in handle
+    await self.app(scope, receive, send)
+  File "/Users/horange/code/LogiVOC/backend/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 134, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/Users/horange/code/LogiVOC/backend/.venv/lib/python3.12/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/Users/horange/code/LogiVOC/backend/.venv/lib/python3.12/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/horange/code/LogiVOC/backend/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 120, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "/Users/horange/code/LogiVOC/backend/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 674, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/horange/code/LogiVOC/backend/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 330, in run_endpoint_function
+    return await run_in_threadpool(dependant.call, **values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/horange/code/LogiVOC/backend/.venv/lib/python3.12/site-packages/starlette/concurrency.py", line 32, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/horange/code/LogiVOC/backend/.venv/lib/python3.12/site-packages/anyio/to_thread.py", line 63, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/horange/code/LogiVOC/backend/.venv/lib/python3.12/site-packages/anyio/_backends/_asyncio.py", line 2518, in run_sync_in_worker_thread
+    return await future
+           ^^^^^^^^^^^^
+  File "/Users/horange/code/LogiVOC/backend/.venv/lib/python3.12/site-packages/anyio/_backends/_asyncio.py", line 1002, in run
+    result = context.run(func, *args)
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/horange/code/LogiVOC/backend/app/api/routers/search.py", line 27, in search_documents
+    return document_service.search_documents(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/horange/code/LogiVOC/backend/app/services/document_service.py", line 63, in search_documents
+    total = base_query.count()
+            ^^^^^^^^^^^^^^^^^^
+  File "/Users/horange/code/LogiVOC/backend/.venv/lib/python3.12/site-packages/sqlalchemy/orm/query.py", line 3153, in count
+    self._legacy_from_self(col).enable_eagerloads(False).scalar()
+  File "/Users/horange/code/LogiVOC/backend/.venv/lib/python3.12/site-packages/sqlalchemy/orm/query.py", line 2842, in scalar
+    ret = self.one()
+          ^^^^^^^^^^
+  File "/Users/horange/code/LogiVOC/backend/.venv/lib/python3.12/site-packages/sqlalchemy/orm/query.py", line 2815, in one
+    return self._iter().one()  # type: ignore
+           ^^^^^^^^^^^^
+  File "/Users/horange/code/LogiVOC/backend/.venv/lib/python3.12/site-packages/sqlalchemy/orm/query.py", line 2864, in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+                                                  ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/horange/code/LogiVOC/backend/.venv/lib/python3.12/site-packages/sqlalchemy/orm/session.py", line 2372, in execute
+    return self._execute_internal(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/horange/code/LogiVOC/backend/.venv/lib/python3.12/site-packages/sqlalchemy/orm/session.py", line 2270, in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/horange/code/LogiVOC/backend/.venv/lib/python3.12/site-packages/sqlalchemy/orm/context.py", line 306, in orm_execute_statement
+    result = conn.execute(
+             ^^^^^^^^^^^^^
+  File "/Users/horange/code/LogiVOC/backend/.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1421, in execute
+    return meth(
+           ^^^^^
+  File "/Users/horange/code/LogiVOC/backend/.venv/lib/python3.12/site-packages/sqlalchemy/sql/elements.py", line 526, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/horange/code/LogiVOC/backend/.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1643, in _execute_clauseelement
+    ret = self._execute_context(
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/horange/code/LogiVOC/backend/.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1848, in _execute_context
+    return self._exec_single_context(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/horange/code/LogiVOC/backend/.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1988, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "/Users/horange/code/LogiVOC/backend/.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 2365, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/Users/horange/code/LogiVOC/backend/.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1969, in _exec_single_context
+    self.dialect.do_execute(
+  File "/Users/horange/code/LogiVOC/backend/.venv/lib/python3.12/site-packages/sqlalchemy/engine/default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) near ">": syntax error
+[SQL: SELECT count(*) AS count_1 
+FROM (SELECT knowledge_wiki.id AS knowledge_wiki_id, knowledge_wiki.category_id AS knowledge_wiki_category_id, knowledge_wiki.author_id AS knowledge_wiki_author_id, knowledge_wiki.title AS knowledge_wiki_title, knowledge_wiki.content AS knowledge_wiki_content, knowledge_wiki.embedding AS knowledge_wiki_embedding, knowledge_wiki.status AS knowledge_wiki_status, knowledge_wiki.source_file_name AS knowledge_wiki_source_file_name, knowledge_wiki.custom_prompt_used AS knowledge_wiki_custom_prompt_used, knowledge_wiki.structured_data AS knowledge_wiki_structured_data, knowledge_wiki.created_at AS knowledge_wiki_created_at, knowledge_wiki.updated_at AS knowledge_wiki_updated_at, knowledge_wiki.embedding <=> ? AS distance 
+FROM knowledge_wiki) AS anon_1]
+[parameters: ('[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0, ... (5847 characters truncated) ... ,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0]',)]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+INFO:     127.0.0.1:59487 - "POST /api/v1/auth/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59490 - "GET /api/v1/admin/stats/categories HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59488 - "GET /api/v1/admin/stats/overview HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59491 - "GET /api/v1/admin/activities/recent?limit=10 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59492 - "GET /api/v1/admin/stats/categories HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59493 - "GET /api/v1/admin/stats/overview HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59495 - "GET /api/v1/admin/activities/recent?limit=10 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59504 - "POST /api/v1/auth/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59505 - "GET /api/v1/categories/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59506 - "GET /api/v1/documents/search?limit=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59507 - "GET /api/v1/categories/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59508 - "GET /api/v1/documents/search?limit=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59509 - "GET /api/v1/categories/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59511 - "GET /api/v1/categories/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59513 - "GET /api/v1/wiki/?limit=1000 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59515 - "GET /api/v1/wiki/?limit=1000 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59519 - "GET /api/v1/admin/stats/overview HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59520 - "GET /api/v1/admin/stats/categories HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59521 - "GET /api/v1/admin/activities/recent?limit=10 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59525 - "GET /api/v1/admin/stats/overview HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59526 - "GET /api/v1/admin/stats/categories HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59527 - "GET /api/v1/admin/activities/recent?limit=10 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59535 - "POST /api/v1/auth/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59537 - "GET /api/v1/admin/stats/categories HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59536 - "GET /api/v1/admin/stats/overview HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59538 - "GET /api/v1/admin/activities/recent?limit=10 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59542 - "GET /api/v1/admin/activities/recent?limit=10 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59541 - "GET /api/v1/admin/stats/overview HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59540 - "GET /api/v1/admin/stats/categories HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59544 - "GET /api/v1/categories/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59560 - "POST /api/v1/auth/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59561 - "GET /api/v1/categories/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59562 - "GET /api/v1/categories/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59563 - "GET /api/v1/wiki/?limit=1000 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59564 - "GET /api/v1/wiki/?limit=1000 HTTP/1.1" 200 OK
 Unexpected error in Azure DI: HTTPSConnection(host='mock.azure.com', port=443): Failed to resolve 'mock.azure.com' ([Errno 8] nodename nor servname provided, or not known)
-INFO:     127.0.0.1:57356 - "POST /api/v1/files/upload HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59565 - "POST /api/v1/files/upload HTTP/1.1" 200 OK
 /Users/horange/code/LogiVOC/backend/.venv/lib/python3.12/site-packages/jwt/api_jwt.py:368: InsecureKeyLengthWarning: The HMAC key is 11 bytes long, which is below the minimum recommended length of 32 bytes for SHA256. See RFC 7518 Section 3.2.
   decoded = self.decode_complete(
-INFO:     127.0.0.1:57359 - "GET /api/v1/tasks/5ec48344-b10c-4e51-9e7f-26e8aa1f58da HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57361 - "GET /api/v1/wiki/eff354da-8423-471e-9b53-f45c6ac704e6 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57363 - "PUT /api/v1/wiki/eff354da-8423-471e-9b53-f45c6ac704e6 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57365 - "POST /api/v1/wiki/eff354da-8423-471e-9b53-f45c6ac704e6/verify HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57367 - "GET /api/v1/categories/ HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57369 - "GET /api/v1/wiki/?limit=1000 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59571 - "GET /api/v1/tasks/8613f782-5539-43f0-80b2-2dbc2b3cefce HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59573 - "GET /api/v1/wiki/082eadba-c894-4150-92c4-48cb53b4d3c4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59575 - "PUT /api/v1/wiki/082eadba-c894-4150-92c4-48cb53b4d3c4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59577 - "POST /api/v1/wiki/082eadba-c894-4150-92c4-48cb53b4d3c4/verify HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59579 - "GET /api/v1/categories/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59581 - "GET /api/v1/wiki/?limit=1000 HTTP/1.1" 200 OK
 INFO:     Shutting down
 INFO:     Waiting for application shutdown.
 INFO:     Application shutdown complete.
-INFO:     Finished server process [95069]
+INFO:     Finished server process [14679]

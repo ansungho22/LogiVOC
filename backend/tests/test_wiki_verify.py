@@ -8,13 +8,18 @@ client = TestClient(app)
 # Mock user function
 from app.api.dependencies import get_current_user, get_current_operator
 from app.models.user import User, UserRole
+import pytest
 
 def override_get_current_user():
     user = User(id=uuid.uuid4(), username="admin", role=UserRole.ADMIN)
     return user
 
-app.dependency_overrides[get_current_user] = override_get_current_user
-app.dependency_overrides[get_current_operator] = override_get_current_user
+@pytest.fixture(autouse=True)
+def override_dependencies():
+    app.dependency_overrides[get_current_user] = override_get_current_user
+    app.dependency_overrides[get_current_operator] = override_get_current_user
+    yield
+    app.dependency_overrides.clear()
 
 # Mock CRUD
 from app.services import wiki_service

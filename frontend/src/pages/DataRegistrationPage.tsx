@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Loader2, UploadCloud, FileUp, CheckCircle, FileText, X, Plus } from 'lucide-react';
-import { getWikis, getCategories, updateWiki, verifyWiki, uploadFile, getTaskStatus, getWikiById, ApiError } from '../api';
+import { getWikis, getCategories, updateWiki, verifyWiki, uploadFile, getTaskStatus, getWikiById, ApiError, createCategory } from '../api';
 import type { Wiki, Category } from '../types';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 const MAX_PROMPT_LENGTH = 500;
 
@@ -23,6 +25,7 @@ const DataRegistrationPage = () => {
   const [editTitle, setEditTitle] = useState('');
   const [editCategory, setEditCategory] = useState('');
   const [editContent, setEditContent] = useState('');
+  const [isPreviewMode, setIsPreviewMode] = useState(true);
 
   const loadData = async () => {
     try {
@@ -77,10 +80,17 @@ const DataRegistrationPage = () => {
 
     setIsUploading(true);
     try {
-      // Pass custom prompt and new category if available
-      const uploadCategory = isAddingCategory && newCategory ? newCategory : undefined;
-      const response = await uploadFile(files[0], customPrompt, uploadCategory);
-      const taskId = response.task_id ;
+      let finalCategoryId = selectedCategory;
+
+      if (isAddingCategory && newCategory) {
+        const created = await createCategory({ name: newCategory });
+        finalCategoryId = created.id;
+        setCategories(prev => [...prev, created]);
+        setSelectedCategory(created.id);
+      }
+
+      const response = await uploadFile(files[0], customPrompt, finalCategoryId);
+      const taskId = response.task_id;
       
       const poll = setInterval(async () => {
         try {
@@ -366,12 +376,37 @@ const DataRegistrationPage = () => {
               </div>
 
               <div className="flex-1 flex flex-col min-h-[300px]">
-                <label className="block text-sm font-medium text-slate-400 mb-1.5">Extracted Content (Rich Text)</label>
-                <textarea 
-                  value={editContent}
-                  onChange={e => setEditContent(e.target.value)}
-                  className="w-full flex-1 bg-slate-950/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-indigo-500/50 resize-none font-mono text-sm leading-relaxed"
-                />
+                <div className="flex justify-between items-center mb-1.5">
+                  <label className="block text-sm font-medium text-slate-400">Extracted Content (Rich Text)</label>
+                  <div className="flex bg-slate-950 border border-white/10 rounded-lg p-1">
+                    <button 
+                      onClick={() => setIsPreviewMode(false)}
+                      className={`px-3 py-1 text-xs font-medium rounded-md transition-colors ${!isPreviewMode ? 'bg-indigo-500 text-white' : 'text-slate-400 hover:text-white'}`}
+                    >
+                      Edit
+                    </button>
+                    <button 
+                      onClick={() => setIsPreviewMode(true)}
+                      className={`px-3 py-1 text-xs font-medium rounded-md transition-colors ${isPreviewMode ? 'bg-indigo-500 text-white' : 'text-slate-400 hover:text-white'}`}
+                    >
+                      Preview
+                    </button>
+                  </div>
+                </div>
+                
+                {!isPreviewMode ? (
+                  <textarea 
+                    value={editContent}
+                    onChange={e => setEditContent(e.target.value)}
+                    className="w-full flex-1 bg-slate-950/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-indigo-500/50 resize-none font-mono text-sm leading-relaxed"
+                  />
+                ) : (
+                  <div className="w-full flex-1 bg-slate-950/50 border border-white/10 rounded-xl px-4 py-3 text-slate-200 overflow-y-auto prose prose-invert prose-sm max-w-none prose-td:border prose-td:border-white/20 prose-th:border prose-th:border-white/20 prose-table:border-collapse prose-table:w-full prose-th:bg-slate-900 prose-th:p-2 prose-td:p-2">
+                    <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                      {editContent || '*No content available*'}
+                    </ReactMarkdown>
+                  </div>
+                )}
               </div>
 
               <div className="flex justify-end gap-3 pt-4 border-t border-white/10 mt-2">

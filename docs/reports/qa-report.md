@@ -1,30 +1,35 @@
 # QA 리포트
 
 - **작성자:** qa_engineer
-- **작성일시:** 2026-06-05 13:35
-- **리포트 유형:** QA
+- **작성일시:** 2026-06-05 14:44:00
+- **리포트 유형:** QA (E2E & Logic Validation)
 
 ---
 
 ## 요약 (Summary)
-파이프라인 데이터 병합 로직에 퍼지 매칭(Fuzzy Matching) 알고리즘(`thefuzz` 라이브러리 사용)이 적용되었는지 확인하고, 해당 변경 사항에 대해 백엔드 통합 테스트(`pytest`)를 수행하였습니다. 테스트 결과 모든 기능이 정상 작동하며, 중복 데이터 병합 시 빈도수(`count`) 계산이 의도대로 동작함을 확인했습니다.
+Phase 3 개발 내용(Workspace 통합검색 및 Admin 대시보드 통계)에 대하여 백엔드 `pytest` 및 프론트엔드 통합 E2E 테스트(Playwright)를 수행했습니다. 테스트 과정에서 의존성 주입 누수, 프론트엔드 로케이터 매칭 오류, 그리고 React의 Promise.all() 동시 호출로 인한 Auth 동시성 오류(Race Condition)가 발견되어 모두 직접 픽스 후 테스트를 100% 통과시켰습니다.
 
 ## 테스트 환경 (Environment)
-- OS: Mac
-- Python 버전: 3.12
-- 프레임워크: FastAPI, Celery
-- 테스트 도구: pytest (9.0.3)
-- 주요 라이브러리: thefuzz, rapidfuzz
+- **OS:** macOS
+- **테스트 프레임워크:** `pytest` (Backend), `@playwright/test` (Frontend)
+- **대상 기능:**
+  - Workspace 통합 문서 시맨틱 검색 (검색어 입력)
+  - Admin 대시보드 통계 조회 (총 문서 수, 카테고리별 현황, 활동 내역 등)
 
 ## 발견 사항 (Findings)
 
-| # | 심각도 | 항목 | 설명 | 재현 경로 |
+| # | 심각도 | 항목 | 설명 | 재현 경로 / 조치 내용 |
 |---|--------|------|------|-----------|
-| 1 | Low | Deprecation Warning | FastAPI의 TestClient 관련 `httpx` 의존성 경고 및 JWT Key Length 경고가 발생하였으나, 기능 로직 자체의 결함은 아님. | `pytest` 실행 시 출력 |
-| 2 | None | 중복 병합 검증 | 동일한 데이터(예: Alice 2건) 입력 시 퍼지 매칭을 통해 중복으로 인식하고 `count: 2`로 정상 병합되는 것을 확인. | `tests/test_pipeline_structure.py` |
-| 3 | None | 통합 파이프라인 | 파이프라인의 Router -> Cleanse -> Merge -> Structure 노드가 순차적으로 오류 없이 실행됨을 확인. | `pytest tests/test_pipeline_structure.py` |
+| 1 | High | Backend Auth Race Condition | 프론트엔드에서 API 토큰 획득 시 동시성 제어가 없어 여러 탭(대시보드 통계) 로딩 시 `auto-login` 중복 회원가입 500 에러 발생 | `frontend/src/api/index.ts`의 `getToken`에 Promise Lock 로직 추가하여 수정 완료 (Fixed) |
+| 2 | Medium | 테스트 의존성 누수 | `test_wiki_verify.py`에서 `app.dependency_overrides`를 전역으로 덮어써서 다른 테스트들의 인증 로직이 우회되는 결함 | Pytest fixture `yield` 구문을 사용해 오버라이드 해제(clear)하도록 수정 완료 (Fixed) |
+| 3 | Low | E2E Locator 불일치 | 프론트엔드 텍스트가 한글화 됨에 따라 기존 E2E 테스트(`Your Workspaces` 등) 실패 | `phase3.spec.ts` 및 신규 작성한 `phase3-search-stats.spec.ts` 로케이터를 실제 한글 텍스트로 업데이트 완료 (Fixed) |
+| 4 | Info | 신규 E2E 테스트 추가 | Workspace 통합검색 및 Admin 대시보드 통계를 위한 신규 E2E 테스트 파일 작성 및 검증 통과 | `frontend/tests/phase3-search-stats.spec.ts` 100% Pass |
 
 ## 결론 (Conclusion)
 **PASSED**
+- 통합 검색 포털 및 대시보드 통계 기능이 프론트/백엔드 모두 정상적으로 통신하며 요구사항대로 동작함을 E2E로 검증 완료.
+- 발견된 논리적 결함(Auth 500 오류 등)은 모두 픽스되었습니다.
+- Phase 5(UAT 모의 사용자 테스트) 진행이 가능한 상태입니다.
 
-퍼지 매칭(Fuzzy Matching)을 활용한 파이프라인 데이터 병합 코드는 성공적으로 구현되었고 기능 결함 없이 완벽하게 동작합니다. 모든 테스트(`pytest` 전체 10개 항목)를 통과하였으므로 다음 단계로 진행해도 좋습니다.
+---
+*이 리포트는 QA 에이전트에 의해 작성되었습니다.*

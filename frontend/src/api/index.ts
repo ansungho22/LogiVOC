@@ -1,20 +1,31 @@
-import type { Category, Wiki } from '../types';
+import type { Category, Wiki, SearchResponse, AdminStatsOverview, AdminStatsCategory, AdminActivity } from '../types';
 
 const API_BASE = '/api/v1';
 
 let cachedToken: string | null = null;
+let tokenPromise: Promise<string> | null = null;
 
 const getToken = async (): Promise<string> => {
   if (cachedToken) return cachedToken;
-  const res = await fetch(`${API_BASE}/auth/login`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: new URLSearchParams({ username: 'admin', password: 'admin' }).toString()
-  });
-  if (!res.ok) throw new Error('Auto-login failed');
-  const data = await res.json();
-  cachedToken = data.access_token;
-  return cachedToken!;
+  if (tokenPromise) return tokenPromise;
+
+  tokenPromise = (async () => {
+    try {
+      const res = await fetch(`${API_BASE}/auth/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({ username: 'admin', password: 'admin' }).toString()
+      });
+      if (!res.ok) throw new Error('Auto-login failed');
+      const data = await res.json();
+      cachedToken = data.access_token;
+      return cachedToken!;
+    } finally {
+      tokenPromise = null;
+    }
+  })();
+  
+  return tokenPromise;
 };
 
 const fetchWithAuth = async (url: string, options: RequestInit = {}) => {
@@ -77,12 +88,12 @@ export class ApiError extends Error {
   }
 }
 
-export const uploadFile = async (file: File, prompt?: string, newCategory?: string): Promise<{task_id: string}> => {
+export const uploadFile = async (file: File, prompt?: string, categoryId?: string): Promise<{task_id: string}> => {
   const token = await getToken();
   const formData = new FormData();
   formData.append('file', file);
-  if (prompt) formData.append('prompt', prompt);
-  if (newCategory) formData.append('new_category', newCategory);
+  if (prompt) formData.append('custom_prompt', prompt);
+  if (categoryId) formData.append('category_id', categoryId);
   
   const res = await fetch(`${API_BASE}/files/upload`, {
     method: 'POST',
@@ -132,4 +143,50 @@ export const deleteCategory = async (id: string): Promise<void> => {
     method: 'DELETE'
   });
   if (!res.ok) throw new Error('Failed to delete category');
+};
+
+export const searchDocuments = async (params: {
+  query?: string;
+  category_id?: string;
+  status?: string;
+  start_date?: string;
+  end_date?: string;
+  page?: number;
+  limit?: number;
+}): Promise<SearchResponse> => {
+  const queryParams = new URLSearchParams();
+  Object.entries(params).forEach(([key, value]) => {
+    if (value !== undefined && value !== '') {
+      queryParams.append(key, value.toString());
+    }
+  });
+  const res = await fetchWithAuth(`${API_BASE}/documents/search?${queryParams.toString()}`);
+  if (!res.ok) throw new Error('Failed to search documents');
+  return res.json();
+};
+
+export const getDocumentById = async (id: string): Promise<Wiki & { category?: Category }> => {
+  const res = await fetchWithAuth(`${API_BASE}/documents/${id}`);
+  if (!res.ok) throw new Error('Failed to fetch document details');
+  const responseData = await res.json();
+  return responseData.data || responseData;
+};
+
+export const getAdminStatsOverview = async (): Promise<AdminStatsOverview> => {
+  const res = await fetchWithAuth(`${API_BASE}/admin/stats/overview`);
+  if (!res.ok) throw new Error('Failed to fetch stats overview');
+  return res.json();
+};
+
+export const getAdminStatsCategories = async (status?: string): Promise<{ data: AdminStatsCategory[] }> => {
+  const url = status ? `${API_BASE}/admin/stats/categories?status=${status}` : `${API_BASE}/admin/stats/categories`;
+  const res = await fetchWithAuth(url);
+  if (!res.ok) throw new Error('Failed to fetch categories stats');
+  return res.json();
+};
+
+export const getAdminRecentActivities = async (limit: number = 10): Promise<{ data: AdminActivity[] }> => {
+  const res = await fetchWithAuth(`${API_BASE}/admin/activities/recent?limit=${limit}`);
+  if (!res.ok) throw new Error('Failed to fetch recent activities');
+  return res.json();
 };

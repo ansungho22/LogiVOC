@@ -233,14 +233,6 @@ def router_node(state: PipelineState) -> dict:
     return {"pipeline_route": result.route}
 
 def cleanse_node(state: PipelineState) -> dict:
-    if os.environ.get("OPENAI_API_KEY") == "mock_key":
-        filtered_data = [
-            {"Name": "Alice", "Age": 30, "Job": "Developer"},
-            {"Name": "Bob", "Age": 25, "Job": "Designer"},
-            {"Name": "Alice", "Age": 30, "Job": "Developer"},
-            {"Name": "Charlie", "Age": 35, "Job": "Manager"}
-        ]
-        return {"filtered_data": filtered_data}
 
     """Extract and normalize data from text using LLM."""
     extracted_text = state.get("extracted_text", "")
