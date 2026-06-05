@@ -192,8 +192,21 @@ graph TD
 *   **Azure Document Intelligence 통합**: 임시 파서 대신 실 서비스용 파싱 API를 연동하여 표/텍스트/구조화 데이터를 추출합니다.
 *   **LangGraph 기반 데이터 구조화**: 추출된 데이터를 LangGraph 워크플로우에 통과시켜 요약, 메타데이터 추출, 환각(Hallucination) 검증을 수행합니다.
 *   **동적 커스텀 프롬프트 주입 (Dynamic Prompt Injection)**: 사용자가 데이터 등록 시 입력한 커스텀 프롬프트(Ad-hoc Custom Prompt)는 API를 거쳐 LangGraph의 `GraphState`에 주입됩니다. AI 처리 노드는 이 상태값을 템플릿에 동적 병합하여 맞춤형 데이터 구조화를 수행합니다. (상세 내용은 ADR 002 참조)
+*   **분기형(Branching) 파이프라인 라우팅**: 파일 타입과 사용자 의도를 분석하여 단순 요약(Summarize) 파이프라인과 데이터 구조화(Structure) 파이프라인으로 동적 라우팅합니다. 데이터 구조화 경로에서는 노이즈 제거(Cleanse), 중복 데이터 병합(Merge), 최종 포맷팅(Structure) 과정을 단계별로 거쳐 정보 손실 없는 JSON/Markdown Table을 산출합니다. (상세 내용은 ADR 006 참조)
 *   **한국어 출력 강제 (Bug-5 Policy)**: 원본 문서의 언어(예: 영문 매뉴얼, 로그)에 관계없이 요약, 제목 등 추출되는 모든 결과물은 100% 한국어로 생성되도록 프롬프트를 강제 적용합니다.
 *   **안전한 Fallback**: 외부 AI API(Azure DI, OpenAI 등) 호출 실패 혹은 네트워크 예외 발생 시, 시스템 중단 대신 카테고리를 기본값(Default)으로 매핑하여 안전하게 동작하도록 폴백(Fallback) 처리합니다.
+
+#### LangGraph 파이프라인 아키텍처 다이어그램
+```mermaid
+graph TD
+    A[Input Data / State] --> Router(Router Node)
+    Router -- "route: summarize" --> Sum(Summarize Node)
+    Router -- "route: structure" --> Cleanse(Cleanse Node)
+    Cleanse --> Merge(Merge Node)
+    Merge --> Struct(Structure Node)
+    Sum --> End[Final Output]
+    Struct --> End
+```
 
 ### 2.2 인증 및 JWT 권한 관리 (Authentication & JWT Authorization)
 MVP 단계에서는 외부 SSO나 복잡한 OAuth 대신 내부 JWT 기반 Mock 인증을 사용합니다.

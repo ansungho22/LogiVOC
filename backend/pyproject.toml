@@ -15,6 +15,7 @@ dependencies = [
     "langchain-text-splitters>=0.3.6",
     "langgraph>=1.2.2",
     "openai>=2.38.0",
+    "pandas>=3.0.3",
     "pgvector>=0.4.2",
     "psycopg2-binary>=2.9.12",
     "pydantic>=2.13.4",
@@ -22,6 +23,7 @@ dependencies = [
     "redis>=8.0.0",
     "slowapi>=0.1.9",
     "sqlalchemy>=2.0.50",
+    "tabulate>=0.10.0",
 ]
 
 [dependency-groups]

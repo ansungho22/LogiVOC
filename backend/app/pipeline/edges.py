@@ -1,5 +1,11 @@
 from app.pipeline.state import PipelineState
 
+def route_pipeline(state: PipelineState) -> str:
+    route = state.get("pipeline_route", "summarize")
+    if route == "structure":
+        return "structure"
+    return "summarize"
+
 def check_chunks(state: PipelineState) -> str:
     chunks = state.get("chunks", [""])
     idx = state.get("current_chunk_index", 0)

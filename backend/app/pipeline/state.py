@@ -17,6 +17,13 @@ class PipelineState(TypedDict):
     is_valid: bool
     retry_count: int
     wiki_id: Optional[str]
+    
+    # Branching / Structuring fields
+    file_type: Optional[str]
+    pipeline_route: Optional[str]
+    filtered_data: Optional[list[dict]]
+    merged_data: Optional[list[dict]]
+    structured_output_json: Optional[str]
 
 class SummaryOutput(BaseModel):
     title: str = Field(description="Based on the content of the document, generate a concise and descriptive title STRICTLY IN KOREAN that summarizes the main issue or topic. DO NOT use the original filename or UUID. The title MUST BE 100% KOREAN regardless of the document's original language.")
@@ -25,3 +32,9 @@ class SummaryOutput(BaseModel):
 class SelfCorrectOutput(BaseModel):
     is_valid: bool = Field(description="True if the summary is good, False if it needs correction")
     feedback: str = Field(description="Feedback on what to improve if is_valid is False. MUST be in Korean (한국어).")
+
+class RouterOutput(BaseModel):
+    route: str = Field(description="The route to take: 'summarize' or 'structure'. Use 'structure' for tabular data, logs, spreadsheets, or if the user explicitly asks for tables/structure. Otherwise use 'summarize'.")
+
+class CleanseOutput(BaseModel):
+    records: list[dict] = Field(description="List of extracted records. Each record should be a flat dictionary with key-value pairs.")

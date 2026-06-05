@@ -27,7 +27,7 @@ cp .env.test .env
 
 # Initialize Test DB
 uv run python -c "
-from app.database import Base, engine
+from app.core.database import Base, engine
 Base.metadata.drop_all(bind=engine)
 Base.metadata.create_all(bind=engine)
 print('Test DB initialized')
@@ -62,7 +62,7 @@ sleep 5
 
 echo "Running E2E Tests..."
 set +e
-npx playwright test --workers=1
+VITE_API_URL="http://127.0.0.1:8088" npx playwright test --workers=1 --project=chromium --config=playwright.config.ts
 TEST_EXIT_CODE=$?
 set -e
 

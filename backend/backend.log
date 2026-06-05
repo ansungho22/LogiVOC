@@ -1,0 +1,52 @@
+INFO:     Started server process [95069]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:8088 (Press CTRL+C to quit)
+INFO:     127.0.0.1:57281 - "GET /health HTTP/1.1" 200 OK
+/Users/horange/code/LogiVOC/backend/.venv/lib/python3.12/site-packages/jwt/api_jwt.py:147: InsecureKeyLengthWarning: The HMAC key is 11 bytes long, which is below the minimum recommended length of 32 bytes for SHA256. See RFC 7518 Section 3.2.
+  return self._jws.encode(
+INFO:     127.0.0.1:57298 - "POST /api/v1/auth/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57297 - "POST /api/v1/auth/login HTTP/1.1" 200 OK
+/Users/horange/code/LogiVOC/backend/.venv/lib/python3.12/site-packages/jwt/api_jwt.py:368: InsecureKeyLengthWarning: The HMAC key is 11 bytes long, which is below the minimum recommended length of 32 bytes for SHA256. See RFC 7518 Section 3.2.
+  decoded = self.decode_complete(
+INFO:     127.0.0.1:57299 - "GET /api/v1/categories/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57300 - "GET /api/v1/categories/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57301 - "GET /api/v1/wiki/?limit=1000 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57302 - "GET /api/v1/wiki/?limit=1000 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57305 - "GET /api/v1/wiki/?limit=1000 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57306 - "GET /api/v1/categories/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57318 - "POST /api/v1/auth/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57319 - "POST /api/v1/auth/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57320 - "POST /api/v1/auth/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57321 - "POST /api/v1/auth/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57323 - "GET /api/v1/categories/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57322 - "GET /api/v1/wiki/?limit=1000 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57326 - "GET /api/v1/categories/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57327 - "GET /api/v1/wiki/?limit=1000 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57329 - "GET /api/v1/categories/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57331 - "POST /api/v1/categories/ HTTP/1.1" 201 Created
+INFO:     127.0.0.1:57333 - "GET /api/v1/categories/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57335 - "PUT /api/v1/categories/2b76b267-3ac6-4ef7-894f-0136caa96a14 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57337 - "GET /api/v1/categories/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57339 - "DELETE /api/v1/categories/2b76b267-3ac6-4ef7-894f-0136caa96a14 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57341 - "GET /api/v1/categories/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57349 - "POST /api/v1/auth/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57350 - "POST /api/v1/auth/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57351 - "GET /api/v1/categories/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57352 - "GET /api/v1/categories/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57353 - "GET /api/v1/wiki/?limit=1000 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57354 - "GET /api/v1/wiki/?limit=1000 HTTP/1.1" 200 OK
+Unexpected error in Azure DI: HTTPSConnection(host='mock.azure.com', port=443): Failed to resolve 'mock.azure.com' ([Errno 8] nodename nor servname provided, or not known)
+INFO:     127.0.0.1:57356 - "POST /api/v1/files/upload HTTP/1.1" 200 OK
+/Users/horange/code/LogiVOC/backend/.venv/lib/python3.12/site-packages/jwt/api_jwt.py:368: InsecureKeyLengthWarning: The HMAC key is 11 bytes long, which is below the minimum recommended length of 32 bytes for SHA256. See RFC 7518 Section 3.2.
+  decoded = self.decode_complete(
+INFO:     127.0.0.1:57359 - "GET /api/v1/tasks/5ec48344-b10c-4e51-9e7f-26e8aa1f58da HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57361 - "GET /api/v1/wiki/eff354da-8423-471e-9b53-f45c6ac704e6 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57363 - "PUT /api/v1/wiki/eff354da-8423-471e-9b53-f45c6ac704e6 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57365 - "POST /api/v1/wiki/eff354da-8423-471e-9b53-f45c6ac704e6/verify HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57367 - "GET /api/v1/categories/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57369 - "GET /api/v1/wiki/?limit=1000 HTTP/1.1" 200 OK
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [95069]

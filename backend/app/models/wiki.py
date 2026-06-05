@@ -22,6 +22,7 @@ class KnowledgeWiki(Base):
     status = Column(Enum(WikiStatus), default=WikiStatus.DRAFT, index=True)
     source_file_name = Column(String, nullable=True)
     custom_prompt_used = Column(String, nullable=True)
+    structured_data = Column(String, nullable=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
     

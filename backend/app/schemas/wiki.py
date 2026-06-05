@@ -8,6 +8,7 @@ class KnowledgeWikiBase(BaseModel):
     title: str
     content: str
     category_id: Optional[UUID] = None
+    structured_data: Optional[str] = None
 
 class KnowledgeWikiCreate(KnowledgeWikiBase):
     pass
@@ -16,6 +17,7 @@ class KnowledgeWikiUpdate(BaseModel):
     title: Optional[str] = None
     content: Optional[str] = None
     category_id: Optional[UUID] = None
+    structured_data: Optional[str] = None
 
 class KnowledgeWikiOut(KnowledgeWikiBase):
     id: UUID

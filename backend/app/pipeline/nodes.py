@@ -1,5 +1,7 @@
 import os
 import uuid
+import json
+import pandas as pd
 from langchain_openai import ChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_text_splitters import RecursiveCharacterTextSplitter
@@ -7,7 +9,7 @@ from sqlalchemy.orm import Session
 
 from app.core.database import SessionLocal
 from app.models import KnowledgeWiki, User, UserRole, WikiStatus
-from app.pipeline.state import PipelineState, SummaryOutput, SelfCorrectOutput
+from app.pipeline.state import PipelineState, SummaryOutput, SelfCorrectOutput, RouterOutput, CleanseOutput
 
 llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
 
@@ -15,25 +17,33 @@ def extract_text_node(state: PipelineState) -> dict:
     """MVP: Extract Text (mocking Azure DI for now using document_parser)"""
     from app.services.document_parser import parse_document
     file_path = state.get("file_path", "")
+    filename = state.get("filename", "")
     
     text = ""
     tables_info = ""
     try:
         if os.path.exists(file_path):
-            with open(file_path, "rb") as f:
-                file_content = f.read()
-            
-            filename = os.path.basename(file_path)
-            parsed_data = parse_document(file_content, filename)
-            text = parsed_data.get("text", "")
-            tables = parsed_data.get("tables", [])
-            
-            if tables:
-                tables_info = f"\\n\\nExtracted {len(tables)} tables:\\n"
-                for t in tables:
-                    tables_info += f"- Table {t.get('table_id')}: {t.get('rows')}\\n"
-                    
-            text += tables_info
+            if filename.lower().endswith(('.csv', '.xlsx', '.xls')):
+                # Use pandas directly to prevent Azure DI context window issues or failures
+                if filename.lower().endswith('.csv'):
+                    df = pd.read_csv(file_path)
+                else:
+                    df = pd.read_excel(file_path)
+                text = df.to_json(orient='records', force_ascii=False)
+            else:
+                with open(file_path, "rb") as f:
+                    file_content = f.read()
+                
+                parsed_data = parse_document(file_content, filename)
+                text = parsed_data.get("text", "")
+                tables = parsed_data.get("tables", [])
+                
+                if tables:
+                    tables_info = f"\n\nExtracted {len(tables)} tables:\n"
+                    for t in tables:
+                        tables_info += f"- Table {t.get('table_id')}: {t.get('cells')}\n"
+                        
+                text += tables_info
         else:
             text = f"Mock extracted text from {file_path} (File not found locally)"
     except Exception as e:
@@ -171,6 +181,9 @@ def save_as_draft_node(state: PipelineState) -> dict:
         if not title:
             title = f"Document: {os.path.basename(file_path)}"
             
+        if author_id and isinstance(author_id, str):
+            author_id = uuid.UUID(author_id)
+            
         wiki = KnowledgeWiki(
             category_id=uuid.UUID(category_id) if category_id else None,
             author_id=author_id,
@@ -179,7 +192,8 @@ def save_as_draft_node(state: PipelineState) -> dict:
             embedding=None,
             status=WikiStatus.DRAFT,
             source_file_name=state.get("filename"),
-            custom_prompt_used=state.get("user_custom_prompt")
+            custom_prompt_used=state.get("user_custom_prompt"),
+            structured_data=state.get("structured_output_json")
         )
         
         db.add(wiki)
@@ -189,3 +203,102 @@ def save_as_draft_node(state: PipelineState) -> dict:
         return {"wiki_id": str(wiki.id)}
     finally:
         db.close()
+
+def router_node(state: PipelineState) -> dict:
+    """Determine whether to use the summarize or structure route."""
+    extracted_text = state.get("extracted_text", "")
+    filename = state.get("filename", "")
+    user_prompt = state.get("user_custom_prompt", "")
+    
+    # Simple heuristic based on extension
+    if filename and filename.lower().endswith(('.csv', '.xlsx', '.xls')):
+        return {"pipeline_route": "structure", "file_type": "spreadsheet"}
+    
+    # Or ask LLM to decide based on a sample
+    sample_text = extracted_text[:1000]
+    prompt = ChatPromptTemplate.from_messages([
+        ("system", "You are a routing assistant. Decide if the user's request and document content are better suited for a standard text summary ('summarize') or structural data extraction into a table/JSON ('structure')."),
+        ("human", "Filename: {filename}\\nUser Prompt: {user_prompt}\\nSample text:\\n{sample_text}")
+    ])
+    
+    router_llm = llm.with_structured_output(RouterOutput)
+    chain = prompt | router_llm
+    
+    result = chain.invoke({
+        "filename": filename,
+        "user_prompt": user_prompt,
+        "sample_text": sample_text
+    })
+    
+    return {"pipeline_route": result.route}
+
+def cleanse_node(state: PipelineState) -> dict:
+    """Extract and normalize data from text using LLM."""
+    extracted_text = state.get("extracted_text", "")
+    
+    prompt = ChatPromptTemplate.from_messages([
+        ("system", "You are a data cleansing assistant. Extract tabular or log-like data from the given text and return it as a list of dictionaries. Standardize the keys and remove unnecessary noise or irrelevant sentences. Keys should be in Korean if appropriate."),
+        ("human", "Text to cleanse:\\n{text}")
+    ])
+    
+    cleanse_llm = llm.with_structured_output(CleanseOutput)
+    chain = prompt | cleanse_llm
+    
+    # Process the first few chunks or all if it fits
+    text_to_process = extracted_text[:8000]  # Limit to avoid huge context for extraction
+    
+    try:
+        result = chain.invoke({"text": text_to_process})
+        filtered_data = result.records
+    except Exception as e:
+        # Fallback
+        filtered_data = []
+        
+    return {"filtered_data": filtered_data}
+
+def merge_node(state: PipelineState) -> dict:
+    """Identify duplicates and merge them with counts using Pandas."""
+    filtered_data = state.get("filtered_data", [])
+    
+    if not filtered_data:
+        return {"merged_data": []}
+        
+    df = pd.DataFrame(filtered_data)
+    
+    # Convert dicts or lists in columns to string to allow grouping
+    for col in df.columns:
+        if df[col].apply(lambda x: isinstance(x, (dict, list))).any():
+            df[col] = df[col].astype(str)
+            
+    # Group by all columns to find duplicates and add a 'count' column
+    df_merged = df.groupby(list(df.columns), dropna=False).size().reset_index(name='count')
+    
+    merged_data = df_merged.to_dict(orient="records")
+    return {"merged_data": merged_data}
+
+def structure_node(state: PipelineState) -> dict:
+    """Format the merged data into a structured output (JSON and Markdown Table) for saving."""
+    merged_data = state.get("merged_data", [])
+    filename = state.get("filename", "Structured Data")
+    
+    if not merged_data:
+        return {
+            "structured_output_json": "[]",
+            "title": f"정형화 실패: {filename}",
+            "summary": "추출할 수 있는 정형 데이터가 없습니다."
+        }
+        
+    # Generate Markdown Table
+    df = pd.DataFrame(merged_data)
+    md_table = df.to_markdown(index=False)
+    
+    structured_json = json.dumps(merged_data, ensure_ascii=False, indent=2)
+    
+    title = f"정형 데이터 추출: {filename}"
+    summary = f"다음은 원본 문서에서 추출 및 병합된 구조화 데이터입니다:\\n\\n{md_table}"
+    
+    return {
+        "structured_output_json": structured_json,
+        "title": title,
+        "summary": summary
+    }
