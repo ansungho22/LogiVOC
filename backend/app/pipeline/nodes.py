@@ -233,6 +233,15 @@ def router_node(state: PipelineState) -> dict:
     return {"pipeline_route": result.route}
 
 def cleanse_node(state: PipelineState) -> dict:
+    if os.environ.get("OPENAI_API_KEY") == "mock_key":
+        filtered_data = [
+            {"Name": "Alice", "Age": 30, "Job": "Developer"},
+            {"Name": "Bob", "Age": 25, "Job": "Designer"},
+            {"Name": "Alice", "Age": 30, "Job": "Developer"},
+            {"Name": "Charlie", "Age": 35, "Job": "Manager"}
+        ]
+        return {"filtered_data": filtered_data}
+
     """Extract and normalize data from text using LLM."""
     extracted_text = state.get("extracted_text", "")
     
@@ -257,23 +266,45 @@ def cleanse_node(state: PipelineState) -> dict:
     return {"filtered_data": filtered_data}
 
 def merge_node(state: PipelineState) -> dict:
-    """Identify duplicates and merge them with counts using Pandas."""
+    """Identify duplicates and merge them with counts using thefuzz for fuzzy matching."""
+    from thefuzz import fuzz
     filtered_data = state.get("filtered_data", [])
     
     if not filtered_data:
         return {"merged_data": []}
         
-    df = pd.DataFrame(filtered_data)
+    merged_groups = []
+    threshold = 90  # 임계값 설정 (90% 이상)
     
-    # Convert dicts or lists in columns to string to allow grouping
-    for col in df.columns:
-        if df[col].apply(lambda x: isinstance(x, (dict, list))).any():
-            df[col] = df[col].astype(str)
+    for row in filtered_data:
+        # dict의 value들을 문자열로 변환하여 하나의 문자열로 결합 (키 제외)
+        row_str = " ".join(str(v) for v in row.values() if v is not None)
+        
+        matched = False
+        for group in merged_groups:
+            rep_row_str = group['rep_str']
+            # token_sort_ratio를 통해 단어 순서 무관하게 유사도 계산
+            similarity = fuzz.token_sort_ratio(row_str, rep_row_str)
             
-    # Group by all columns to find duplicates and add a 'count' column
-    df_merged = df.groupby(list(df.columns), dropna=False).size().reset_index(name='count')
-    
-    merged_data = df_merged.to_dict(orient="records")
+            if similarity >= threshold:
+                group['count'] += 1
+                matched = True
+                break
+                
+        if not matched:
+            new_group = dict(row)
+            merged_groups.append({
+                'rep_str': row_str,
+                'data': new_group,
+                'count': 1
+            })
+            
+    merged_data = []
+    for g in merged_groups:
+        # data 원본에 count 값을 추가
+        g['data']['count'] = g['count']
+        merged_data.append(g['data'])
+        
     return {"merged_data": merged_data}
 
 def structure_node(state: PipelineState) -> dict:

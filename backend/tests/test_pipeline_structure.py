@@ -80,7 +80,7 @@ def test_pipeline_structure_route(mock_invoke, mock_parse, db_session):
     import json
     data = json.loads(wiki.structured_data)
     # Check if duplicate is merged correctly
-    alice_row = next((r for r in data if r.get('name') == 'Alice'), None)
+    alice_row = next((r for r in data if r.get('name') == 'Alice' or r.get('Name') == 'Alice'), None)
     assert alice_row is not None
     assert alice_row.get('count') == 2 or alice_row.get('count') == '2'
     

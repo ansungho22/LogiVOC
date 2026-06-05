@@ -102,3 +102,5 @@
 - [devops_mlops] - [backend/app/pipeline/nodes.py 수정, frontend/run_test.sh 테스트 환경 스크립트 픽스, docs/reports/qa-report.md 갱신] - [데이터 구조화 파이프라인에서 CSV 파일 처리 시 Azure DI 호출로 발생하는 라우팅/오류를 방지하기 위해 Pandas 직접 처리 로직을 구현하고, Playwright 기반 E2E 빌드 및 통합 테스트가 100% 통과되도록 인프라 환경 검증을 완료함]
 - [user_agent] - [docs/reports/uat-report.md 갱신] - [데이터 정제 및 구조화 파이프라인 UAT 시나리오 검증 성공 및 Approved 판정 기록]
 - [pmo] - [docs/history/2026-06-05-DATA-STRUCTURING-CLOSURE.md 생성] - [Phase 5 UAT 통과에 따른 데이터 정제 및 구조화 파이프라인(확장자 감지 및 AI 인지 기반 하이브리드 라우터 포함) 최종 프로젝트 마감 (PM Sign-off)]
+- [ai_dev] - [backend/app/pipeline/nodes.py 및 backend/tests/test_pipeline_structure.py 수정, thefuzz 패키지 추가] - [데이터 구조화 파이프라인의 merge_node에서 단순 exact match 대신 thefuzz 라이브러리를 활용하여 90% 이상 유사한 문자열 행(Row)을 동일 데이터로 간주해 병합(Count 증가)하도록 퍼지 매칭 로직 도입. 백엔드 테스트 검증 완료.]
+- [devops_mlops] - [파이프라인 퍼지 매칭 알고리즘 업데이트에 따른 빌드/인프라/테스트 무결성 검증 및 리포트 작성] - [프론트엔드/백엔드 빌드 및 docker-compose 설정 검증]

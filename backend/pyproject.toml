@@ -24,6 +24,7 @@ dependencies = [
     "slowapi>=0.1.9",
     "sqlalchemy>=2.0.50",
     "tabulate>=0.10.0",
+    "thefuzz[speedup]>=0.22.1",
 ]
 
 [dependency-groups]

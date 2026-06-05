@@ -33,7 +33,7 @@ test.describe('Data Structuring & Custom Prompt UAT', () => {
     await expect(page.locator('text=Verify Extracted Data')).toBeVisible();
 
     // 5. Optionally, verify content contains structured data (Table or JSON)
-    const textarea = page.locator('textarea').nth(1); // The second textarea is Extracted Content
+    const textarea = page.locator('textarea').first(); // The first textarea in Edit View is Extracted Content
     const content = await textarea.inputValue();
     console.log('Extracted Content:\n', content);
 
